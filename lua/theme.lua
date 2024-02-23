@@ -92,10 +92,10 @@ local themes = {
         config = function()
             local theme = require('onedark')
             theme.setup {
-                style = 'deep',
+                style = 'warm',
                 transparent = false, -- Show/hide background
                 code_style = {
-                    comments = 'italic',
+                    comments = 'none',
                     keywords = 'none',
                     functions = 'none',
                     strings = 'none',
@@ -182,7 +182,7 @@ end
 
 M.get_active_theme =  function()
     theme = themes[M.theme_name]
-    theme.lazy = false 
+    theme.lazy = false
     theme.priority = 1000
     return theme
 end

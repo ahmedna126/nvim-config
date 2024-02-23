@@ -1,3 +1,35 @@
+local discipline = require("craftzdog.discipline")
+
+discipline.cowboy()
+
+-- [[ Basic Keymaps ]]
+
+local opts = { noremap = true, silent = true }
+
+-- Shorten function name
+local keymap = vim.api.nvim_set_keymap
+
+--Remap space as leader key
+keymap("", "<Space>", "<Nop>", opts)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Keymaps for better default experience
+-- See `:help vim.keymap.set()`
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
+-- Remap for dealing with word wrap
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- Diagnostic keymaps
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+
+---------------------------------------------------
 local ok, wk = pcall(require, "which-key")
 
 if not ok then
@@ -5,8 +37,8 @@ if not ok then
 end
 
 -- Space as leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+--vim.g.mapleader = " "
+-- vim.g.maplocalleader = " "
 
 -- NORMAL MODE MAPPINGS
 local n_opts = {
@@ -18,11 +50,12 @@ local n_opts = {
 }
 
 wk.register({
-	["<c-s>"] = { "ggVG", "[SELECT] Select all" },
+	["<c-a>"] = { "ggVG", "[SELECT] Select all" },
 	-- Edit
 	-- ["d"] = { '"_d', "Do not copy when deleting" },
 	-- ["D"] = { '"_D', "Do not copy when deleting" },
 	-- ["dd"] = { '"_dd', "Do not copy when deleting" },
+	["db"] = { 'vb"_d', "delete a backwards" },
 	["c"] = { '"_c', "Do not copy when changing" },
 	["C"] = { '"_C', "Do not copy when changing" },
 	["cc"] = { '"_cc', "Do not copy when changing" },
@@ -46,6 +79,12 @@ wk.register({
 	["<a-o>"] = { "mao<ESC>`a", "New line in normal mode" },
 	["<a-O>"] = { "maO<ESC>`a", "New line before in normal mode" },
 
+	-- Resize (split window) with arrows
+	["<c-up>"] = { ":resize +2<CR>", "resize split window to up" },
+	["<c-down>"] = { ":resize -2<CR>", "resize split window to down" },
+	["<c-right>"] = { ":vertical resize -2<CR>", "resize vsplit window to right" },
+	["<c-left>"] = { ":vertical resize +2<CR>", "resize vsplit window to right" },
+
 	-- Motions
 	["H"] = { "^", "[MOTION] Move to first character of line" },
 	["L"] = { "$", "[MOTION] Move to last character of line" },
@@ -64,10 +103,47 @@ wk.register({
 	["<a-down>"] = { "<cmd>TSTextobjectGotoNextStart @function.outer<cr>", "[MOTION] Move to next method" },
 	["<a-up>"] = { "<cmd>TSTextobjectGotoPreviousStart @function.outer<cr>", "[MOTION] Move to previous method" },
 
+	-- Increment/decrement
+	["+"] = { "<c-z>", "increase number" },
+	["-"] = { "<c-x>", "descrease number" },
+
+	["<c-m>"] = { "<c-i>", "jumplist" },
+	["<c-k>"] = { "<cmd>Vista!!<cr>" , "Viewer & Finder for LSP symbols and tags"},
+	["<c-r>"] = { "<cmd>!java %:p<cr>" , "run java file"},
+
+	-- tab management
+	["<leader>t"] = {
+		name = "[tab management]",
+		t = { "<cmd>tabedit <cr>", "open new tab"},
+		T = { "<cmd>tab split<cr>", "tab split"},
+		n = { "<cmd>tabnext +1<cr>", "go to next tab"},
+		i = { "<cmd>tabnext -1<cr>", "go to previous tab"},
+		I = { "<cmd>tabmove -1<cr>", "move tab to previos tab"},
+		N = { "<cmd>tabmove +1<cr>", "move tab to next tab"},
+		c = {"<cmd>tabclose<cr>" , "close current tab"},
+		o = {"<cmd>tabonly<cr>" , "close all tabs"},
+		f = {"<cmd>tabfirst<cr>" , "go to first tab"},
+		e = {"<cmd>tablast<cr>" , "go to last tab"},
+	},
+	-- or tab managment2
+	["tt"] = { "<cmd>tabedit <cr>", "open new tab" },
+	["to"] = { "<cmd>tabonly<cr>", "close all tabs" },
+	["tc"] = { "<cmd>tabclose<cr>", "close current tab" },
+	["<tab>"] = { "<cmd>tabNext<cr>", "go to next tab" },
+	["<s-tab>"] = { "<cmd>tabprevious<cr>", "go to previous tab" },
+
+
+	["ss"] = { "<cmd>split<Return>", "open split window" },
+	["sv"] = { "<cmd>vsplit<Return>", "open vsplit window" },
+	-- ["sj"] = { "<cmd>TSJToggle<cr>" , "Toggle split/join block"},
+
+	--["<leader>e"] = {"<cmd>Lex 25<Return>" , "open Neotree"},
+	["<leader>e"] = { "<cmd>Neotree toggle<cr>", "open Neotree" },
+
 	-- Window navigation
 	---- Without bufferline
-	-- ["<a-right>"] = { "<cmd>bn<cr>", "[BUFFER] Go previous buffer" },
-	-- ["<a-left>"] = { "<cmd>bp<cr>", "[BUFFER] Go next buffer" },
+	 ["<s-right>"] = { "<cmd>bn<cr>", "[BUFFER] Go previous buffer" },
+	 ["<s-left>"] = { "<cmd>bp<cr>", "[BUFFER] Go next buffer" },
 	-- With bufferline
 	["<a-left>"] = { "<cmd>BufferLineCyclePrev<cr>", "[BUFFER] Go previous buffer" },
 	["<a-right>"] = { "<cmd>BufferLineCycleNext<cr>", "[BUFFER] Go next buffer" },
@@ -119,7 +195,7 @@ wk.register({
 		name = "[Views]",
 		f = { "<cmd>NeoTreeFocusToggle<cr>", "[NEOTREE] Toggle file tree view" },
 		p = { "<cmd>TroubleToggle<cr>", "[TROUBLE] Toggle problem and diagnostics view" },
-		s = { "<cmd>AerialToggle<cr>", "[AERIAL] Toggle file structure view" },
+		s = { "<cmd>AerialToggle!<cr>", "[AERIAL] Toggle file structure view" },
 		t = { "<cmd>ToggleTerm<cr>", "[TOGGLETERM] Open new terminal" },
 		u = { "<cmd>UndotreeToggle<cr>", "[UNDOTREE]Toggle last undoable changes view" },
 	},
@@ -179,16 +255,17 @@ wk.register({
 		e = { "<cmd>Lspsaga code_action<cr>", "[LSP] Code actions" },
 		f = { "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<cr>", "[CONFORM] Format code" },
 		n = { "<cmd>Lspsaga rename<cr>", "[LSP] Rename" },
-		i = { "<cmd>:Refactor inline_var <cr>", "[REFACTOR] Inline variable" },
-		I = { "<cmd>:Refactor inline_func <cr>", "[REFACTOR] Inline function" },
+		i = { "<cmd>Refactor inline_var <cr>", "[REFACTOR] Inline variable" },
+		I = { "<cmd>Refactor inline_func <cr>", "[REFACTOR] Inline function" },
 	},
 
 	-- Errors and diagnostics
-	["<leader>e"] = {
+	--[[["<leader>e"] = {
 		name = "[Diagnostics]",
 		n = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "[DIAG] Go to next error" },
 		p = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "[DIAG] Go to previous error" },
-	},
+	}, ]]
+	--
 
 	-- Git
 	["<leader>g"] = {
@@ -291,9 +368,10 @@ local x_opts = {
 wk.register({
 	["<leader>r"] = {
 		name = "[Code refactor]",
-		v = { "<cmd>:Refactor extract_var <cr>", "[REFACTOR] Extract variable" },
-		x = { "<cmd>:Refactor extract <cr>", "[REFACTOR] Extract function" },
-		l = { "<cmdr:Refactor extract_to_file <cr>", "[REFACTOR] Extract to file" },
+		i = { "<cmd>Refactor inline_var <cr>", "[REFACTOR] Inline variable" },
+		v = { "<cmd>Refactor extract_var <cr>", "[REFACTOR] Extract variable" },
+		x = { "<cmd>Refactor extract <cr>", "[REFACTOR] Extract function" },
+		l = { "<cmd>Refactor extract_to_file <cr>", "[REFACTOR] Extract to file" },
 	},
 }, x_opts)
 

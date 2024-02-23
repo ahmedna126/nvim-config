@@ -20,3 +20,56 @@ api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
+-- Don't continue comments on new line
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufRead", "BufNewFile" }, {
+  command = "setlocal formatoptions-=cro",
+})
+
+-- Format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    if #clients ~= 0 then
+      vim.lsp.buf.format()
+    end
+  end,
+})
+
+
+
+vim.cmd [[
+	augroup ft_insert
+		autocmd!
+		autocmd BufNewFile *.java exe "normal opublic class " . expand('%:t:r') . "\n{\n}\<Esc>1Go\<CR>\<CR>\<Esc>1G"
+		autocmd BufNewFile *.{h,hpp} call Insert_gates()
+	augroup end
+]]
+
+vim.cmd [[
+	augroup file_configs
+		autocmd FileType * setlocal formatoptions-=c formatoptions-=o formatoptions-=r
+		autocmd Filetype java set makeprg=javac\ -d\ %:~:h:s?src?bin?\ %
+		autocmd FileType lua setlocal tabstop=2 softtabstop=2 shiftwidth=2
+	augroup end
+]]
+
+-- Automatically delete trailing newlines on file write
+vim.cmd [[
+ 	autocmd BufWritePre * let currPos = getpos(".")
+	autocmd BufWritePre * %s/\s\+$//e
+	autocmd BufWritePre * %s/\n\+\%$//e
+ 	autocmd BufWritePre * cal cursor(currPos[1], currPos[2])
+]]
+
+-- Remember foldings
+vim.cmd [[
+  augroup remember_folds
+    autocmd!
+    autocmd BufWinLeave * silent! mkview
+    autocmd BufWinEnter * silent! loadview
+  augroup end
+]]
+
+
