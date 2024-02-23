@@ -5,12 +5,18 @@ return {
 		jdtls = require("jdtls")
 		handlers = require("lsp.handlers")
 
-		share_dir = os.getenv("HOME") .. "/.local/share"
+		share_dir = "C:\\Users\\slym73\\AppData\\Local\\nvim-data"
 		project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-		workspace_dir = share_dir .. "/eclipse/" .. project_name
+		workspace_dir = share_dir .. "\\eclipse\\" .. project_name
+
+	--[[ 	local config = {
+			cmd = { "C:/Users/slym73/AppData/Local/nvim-data/mason/packages/jdtls/bin/jdtls" },
+			root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+		}
+		require("jdtls").start_or_attach(config) ]]
 
 		-- Set proper Java executable
-		java_cmd = "/opt/java/jdk-21/bin/java"
+		java_cmd = "G:\\java\\bin\\java.exe"
 		mason_registry = require("mason-registry")
 
 		-- vim.fn.glob Is needed to set paths using wildcard (*)
@@ -57,8 +63,8 @@ return {
 				debounce_text_changes = 150,
 				allow_incremental_sync = true,
 			},
-			--root_dir = require("jdtls.setup").find_root({"build.gradle", "pom.xml", ".git"}),
-			root_dir = jdtls.setup.find_root({ ".metadata", ".git", "pom.xml" }),
+			root_dir = require("jdtls.setup").find_root({"build.gradle", "pom.xml", ".git" , "mvn"}),
+			root_dir = jdtls.setup.find_root({ ".metadata", ".git" , "pom.xml" }),
 
 			on_init = function(client)
 				if client.config.settings then
