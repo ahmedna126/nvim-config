@@ -2,9 +2,7 @@ local capabilities = require("lsp.handlers").capabilities
 
 local _lspconfig, lspconfig = pcall(require, "lspconfig")
 if _lspconfig then
-	-- Python
-	lspconfig.pyright.setup({})
-
+	
 	-- LUA
 	lspconfig.lua_ls.setup({
 		autostart = false,
@@ -29,16 +27,21 @@ if _lspconfig then
 			},
 		},
 	})
-	-- Clangd (C++)
-	lspconfig.clangd.setup({})
 
-	-- Bash
+    --[[
+    -- Python
+     lspconfig.pyright.setup({})
+
+	-- Clangd (C++)
+	 lspconfig.clangd.setup({})
+
+    -- Bash 
 	lspconfig.bashls.setup({
 		autostart = false,
-	})
+	}) 
 
 	-- Javascript/Typescript
-	lspconfig.eslint.setup({
+	 lspconfig.eslint.setup({
 		autostart = true,
 		capabilities = capabilities,
 		settings = {
@@ -74,10 +77,14 @@ if _lspconfig then
 	lspconfig.docker_compose_language_service.setup({
 		autostart = false,
 		capabilities = capabilities,
-	})
-	-- XML
-	lspconfig.lemminx.setup({})
+	}) 
 
-	-- VUE
-	lspconfig.vuels.setup({})
-end
+    -- XML
+    lspconfig.lemminx.setup({})
+
+     -- VUE
+     lspconfig.vuels.setup({})
+
+    ]]--
+
+	end
