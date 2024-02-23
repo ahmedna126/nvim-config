@@ -72,6 +72,8 @@ return {
 			},
 
 			mapping = cmp.mapping.preset.insert({
+				['<Up>'] = cmp.mapping.select_prev_item(),
+				['<Down>'] = cmp.mapping.select_next_item(),
 				["<Tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()

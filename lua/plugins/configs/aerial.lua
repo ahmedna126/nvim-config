@@ -1,6 +1,11 @@
 return {
     -- Code outline window for skimming and quick navigation
     "stevearc/aerial.nvim",
+      -- Optional dependencies
+    dependencies = {
+       "nvim-treesitter/nvim-treesitter",
+       "nvim-tree/nvim-web-devicons"
+    },
     config = function()
         require("aerial").setup({
             log_level = "info",
@@ -11,7 +16,7 @@ return {
                 "Class",
                 "Field",
                 "Variable",
-                "Constructor",
+                "Constructor", 
                 "Enum",
                 "Function",
                 "Interface",

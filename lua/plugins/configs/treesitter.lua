@@ -23,23 +23,25 @@ return {
 			},
 			indent = {
 				enable = true,
-				disable = { "python", "css", "rust" },
+				-- disable = { "python", "css", "rust" },
 			},
 			--ensure_installed = "all",
 			ensure_installed = {
 				"java",
-				"cpp",
+                "html",
+                "lua",
+                "json",
+			--[[	
+                "cpp",
 				"rust",
 				"python",
-				"lua",
-				"html",
-				"json",
 				"dockerfile",
 				"yaml",
 				"css",
 				"javascript",
 				"typescript",
 				"vue",
+             ]]--
 			},
 			refactor = {
 				highlight_definitions = {

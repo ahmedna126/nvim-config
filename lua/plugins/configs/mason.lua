@@ -10,16 +10,17 @@ return {
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"pyright",
-					"lemminx",
-					"html",
-					"tsserver",
-					"eslint",
-					"rust_analyzer",
-					"lua_ls",
-					"bashls",
-					"dockerls",
-					"docker_compose_language_service",
+				    "java_language_server",
+				    "jdtls",
+                    "lua_ls",
+					--"pyright",
+					--"lemminx",
+					--"tsserver",
+					--"eslint",
+					--"rust_analyzer",
+					--"bashls",
+					--"dockerls",
+					--"docker_compose_language_service",
 				},
 				automatic_installation = true,
 			})

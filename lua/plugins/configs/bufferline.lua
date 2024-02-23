@@ -6,7 +6,7 @@ return {
 	config = function()
 		require("bufferline").setup({
 			options = {
-				mode = "buffers", -- set to "tabs" to only show tabpages instead
+				mode = "tabs", -- set to "tabs" to only show tabpages instead
 				numbers = "none",
 				-- Using famiu/bufdelete.nvim plugin commands to prevent messy behaviours with other plugins
 				close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
@@ -18,7 +18,8 @@ return {
 				-- as an escape hatch for people who cannot bear it for whatever reason
 
 				indicator = { icon = "| ", style = "none" },
-				buffer_close_icon = "",
+                buffer_close_icon = "",
+				--buffer_close_icon = "",
 				modified_icon = "●",
 				close_icon = "",
 				left_trunc_marker = "",
